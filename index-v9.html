@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Michelle Liu — Portfolio</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #1a1a1a;
+      line-height: 1.6;
+      overflow-x: hidden;
+      background: #ffffff;
+    }
+
+    #home-bg {
+      position: fixed;
+      top: -8%; left: -8%; width: 116%; height: 116%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    #grain {
+      position: fixed; inset: -20px; z-index: 0; pointer-events: none; opacity: 0.10;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      animation: grainShift 0.6s steps(2) infinite;
+    }
+    @keyframes grainShift { 0%{transform:translate(0,0);} 50%{transform:translate(-4px,3px);} 100%{transform:translate(3px,-2px);} }
+
+    .navbar {
+      position: fixed; top: 0; right: 0;
+      display: flex; align-items: center; gap: 44px;
+      padding: 28px 40px;
+      z-index: 200;
+    }
+    .navbar a {
+      font-size: 1.15rem; color: #1a1a1a; text-decoration: none;
+      cursor: pointer; transition: opacity 0.2s;
+    }
+    .navbar a:hover { opacity: 0.55; }
+    .navbar a.active { font-weight: 700; text-decoration: underline; text-underline-offset: 6px; }
+
+    .nav-stamp {
+      position: fixed; top: 24px; left: 40px; z-index: 201;
+      width: clamp(32px, 4vw, 44px); height: auto; cursor: pointer;
+      transition: transform 0.25s ease;
+      display: none;
+    }
+    .nav-stamp:hover { transform: rotate(-6deg) scale(1.06); }
+
+    .page { display: none; min-height: 100vh; animation: fadeUp 0.5s ease both; }
+    .page.active { display: block; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(14px);} to { opacity:1; transform:translateY(0);} }
+
+    /* ============ WELCOME PAGE ============ */
+    #page-welcome {
+      position: relative; height: 100vh; display: none;
+      align-items: center; justify-content: center; cursor: pointer;
+    }
+    #page-welcome.active { display: flex; }
+    .home-hero { text-align: center; }
+    .home-hero h1 { font-size: 4rem; font-weight: 700; letter-spacing: -0.02em; }
+    .home-hero p {
+      font-size: 1.6rem; color: #1a1a1a; margin-top: 4px;
+      display: inline-flex; align-items: center; gap: 14px;
+    }
+    .home-hero p img { width: 34px; height: auto; }
+
+    /* date + weather status, bottom-left of welcome */
+    .home-status {
+      position: absolute; bottom: 36px; left: 40px;
+      font-size: 0.9rem; color: #333; line-height: 1.5;
+      text-align: left;
+    }
+    .home-status .status-date { font-weight: 600; }
+    .home-status .status-weather { color: #555; }
+
+    #page-work { padding: 90px 40px 80px; }
+    .work-list { list-style: none; }
+    .work-list li {
+      font-size: 1.9rem; padding: 14px 0; cursor: pointer;
+      color: #1a1a1a; transition: opacity 0.2s, padding-left 0.2s; width: fit-content;
+    }
+    .work-list li:hover { opacity: 0.5; padding-left: 10px; }
+    .work-list .w-title { font-weight: 700; margin-right: 18px; }
+    .work-list .w-skills { font-weight: 400; color: #555; }
+
+    #page-gallery { padding: 90px 40px 80px; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .gallery-grid .tile { aspect-ratio: 3 / 4; background: #ececec; border-radius: 4px; overflow: hidden; }
+    .gallery-grid .tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    #page-contact { padding: 90px 40px 80px; max-width: 560px; }
+    #page-contact h2 { font-size: 2rem; margin-bottom: 8px; }
+    #page-contact .sub { color: #777; margin-bottom: 36px; }
+    .contact-form { display: flex; flex-direction: column; gap: 18px; }
+    .contact-form label { font-size: 0.85rem; color: #555; margin-bottom: 6px; display: block; }
+    .contact-form input, .contact-form textarea {
+      width: 100%; padding: 14px 16px; border: 1px solid #ddd; border-radius: 10px;
+      font-family: inherit; font-size: 1rem; background: #fff;
+    }
+    .contact-form textarea { min-height: 130px; resize: vertical; }
+    .contact-form button {
+      align-self: flex-start; padding: 14px 34px; border: none; border-radius: 999px;
+      background: #1a1a1a; color: #fff; font-size: 1rem; cursor: pointer; transition: opacity 0.2s;
+    }
+    .contact-form button:hover { opacity: 0.8; }
+    .contact-info { margin-top: 32px; color: #777; font-size: 0.95rem; }
+    .contact-info a { color: #1a1a1a; text-decoration: none; }
+    .contact-info a:hover { text-decoration: underline; }
+
+    .project-detail {
+      --accent: #1a1a1a;
+      --card-bg: rgba(255, 255, 255, 0.82);
+      position: fixed;
+      top: 90px; left: 40px; right: 40px; bottom: 0;
+      background: var(--card-bg);
+      backdrop-filter: blur(24px) saturate(140%);
+      -webkit-backdrop-filter: blur(24px) saturate(140%);
+      border: 1px solid rgba(255,255,255,0.5);
+      border-radius: 32px 32px 0 0;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.06);
+      overflow-y: auto; overflow-x: hidden;
+      z-index: 300;
+      opacity: 0; transform: translateY(30px); pointer-events: none;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      scrollbar-width: none;
+    }
+    .project-detail::-webkit-scrollbar { width: 6px; }
+    .project-detail::-webkit-scrollbar-track { background: transparent; margin: 160px 0; }
+    .project-detail::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.18); border-radius: 999px; }
+    .project-detail:hover::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.35); }
+    .project-detail.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+    .detail-topbar { position: absolute; top: 24px; right: 28px; z-index: 5; }
+
+    .circle-btn {
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 2px solid #1a1a1a; background: transparent; cursor: pointer;
+      position: relative; padding: 0; opacity: 0.9;
+    }
+    .icon-close { transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s; }
+    .icon-close:hover { opacity: 1; transform: rotate(180deg) scale(1.12); }
+    .icon-close:active { transform: rotate(180deg) scale(0.92); }
+    .icon-close::before, .icon-close::after {
+      content: ""; position: absolute; top: 50%; left: 50%;
+      width: 16px; height: 2px; background: #1a1a1a;
+    }
+    .icon-close::before { transform: translate(-50%,-50%) rotate(45deg); }
+    .icon-close::after  { transform: translate(-50%,-50%) rotate(-45deg); }
+
+    /* up arrow — now with the playful stamp-style tilt on hover */
+    .icon-up { transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s; }
+    .icon-up::before {
+      content: ""; position: absolute; top: 50%; left: 50%;
+      width: 2px; height: 15px; background: #1a1a1a;
+      transform: translate(-50%, -50%);
+    }
+    .icon-up::after {
+      content: ""; position: absolute; top: 50%; left: 50%;
+      width: 9px; height: 9px;
+      border-left: 2px solid #1a1a1a; border-top: 2px solid #1a1a1a;
+      transform: translate(-50%, -50%) translateY(-4px) rotate(45deg);
+    }
+
+    .detail-header { margin: 0; }
+    .detail-header img { width: 100%; height: auto; display: block; border-radius: 32px 32px 0 0; }
+    .detail-inner { padding: 40px 56px 100px; }
+
+    .detail-title { font-size: 30px; margin-top: 8px; text-align: center; color: #000000; }
+    .detail-subtitle { text-align: center; color: #666; font-size: 0.95rem; letter-spacing: 0.02em; margin-top: 6px; margin-bottom: 32px; }
+    .detail-desc { max-width: 720px; margin: 0 auto 40px; color: #333; text-align: center; }
+
+    .img-small  { --img-col: 240px; --img-max: 320px; }
+    .img-medium { --img-col: 340px; --img-max: 520px; }
+    .img-large  { --img-col: 460px; --img-max: 100%;  }
+
+    .detail-body { display: grid; gap: 48px; align-items: start; }
+    .detail-images { display: flex; flex-direction: column; gap: 20px; }
+    .detail-images img { width: 100%; border-radius: 8px; display: block; }
+    .detail-text { max-width: 720px; margin: 0 auto; }
+    .detail-text p { margin-bottom: 16px; color: #333; }
+
+    .layout-left  .detail-body { grid-template-columns: var(--img-col) 1fr; }
+    .layout-right .detail-body { grid-template-columns: 1fr var(--img-col); }
+    .layout-right .detail-images { order: 2; }
+    .layout-top  .detail-body, .layout-full .detail-body { grid-template-columns: 1fr; }
+    .layout-top  .detail-images { max-width: var(--img-max); margin: 0 auto; }
+    .layout-full .detail-images { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .text-left   .detail-text { text-align: left; }
+    .text-center .detail-text { text-align: center; }
+
+    #toTop {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+      z-index: 320; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+    }
+    #toTop.show { opacity: 1; pointer-events: auto; }
+    /* up button playful tilt (matches stamp) */
+    #toTop.icon-up:hover { transform: translateX(-50%) rotate(180deg) scale(1.12); }
+    #toTop.icon-up:active { transform: translateX(-50%) rotate(180deg) scale(0.92); }
+
+    @media (max-width: 640px) {
+      .navbar { gap: 24px; padding: 20px; }
+      .nav-stamp { width: 32px; top: 18px; left: 20px; }
+      .home-hero h1 { font-size: 2.5rem; }
+      .home-hero p { font-size: 1.2rem; }
+      .home-status { left: 20px; bottom: 24px; font-size: 0.8rem; }
+      .work-list li { font-size: 1.3rem; }
+      .work-list .w-title { display: block; margin-right: 0; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .detail-body { grid-template-columns: 1fr !important; }
+      .layout-right .detail-images { order: 0; }
+      .project-detail { top: 70px; left: 0; right: 0; border-radius: 0; }
+      .detail-header img { border-radius: 0; }
+      .detail-inner { padding: 28px 24px 100px; }
+    }
+  </style>
+</head>
+<body>
+
+  <video id="home-bg" autoplay muted loop playsinline>
+    <source src="media/bg.mp4" type="video/mp4" />
+  </video>
+
+  <div id="grain"></div>
+
+  <nav class="navbar" id="navbar">
+    <a onclick="showPage('work')"    data-nav="work">Work</a>
+    <a onclick="showPage('gallery')" data-nav="gallery">Gallery</a>
+    <a onclick="showPage('contact')" data-nav="contact">Contact</a>
+  </nav>
+  <img class="nav-stamp" id="navStamp" src="images/mystamp-01.png" alt="Go to Work" onclick="showPage('work')" />
+
+  <!-- ============ WELCOME ============ -->
+  <section id="page-welcome" class="page active" onclick="showPage('work')">
+    <div class="home-hero">
+      <h1>Michelle Liu</h1>
+      <p>Designer, Idea builder <img src="images/mystamp-01.png" alt="" /></p>
+    </div>
+  
+  </section>
+
+  <!-- ============ WORK ============ -->
+  <section id="page-work" class="page">
+    <ul class="work-list">
+      <li onclick="openProject(0)"><span class="w-title">Holiday Collection.</span><span class="w-skills">Art Direction, Communication</span></li>
+      <li onclick="openProject(1)"><span class="w-title">Games Collection.</span><span class="w-skills">Visual System, Design Component</span></li>
+      <li onclick="openProject(2)"><span class="w-title">WWDC Campaign.</span><span class="w-skills">Problem solving, Communication, Production</span></li>
+      <li onclick="openProject(3)"><span class="w-title">Value's Moment Takeover.</span><span class="w-skills">Composition, Production</span></li>
+      <li onclick="openProject(4)"><span class="w-title">Disney Skills.</span><span class="w-skills">Logo Design, Brand identity</span></li>
+      <li onclick="openProject(5)"><span class="w-title">Disney Sweepstakes.</span><span class="w-skills">Creative concept, Production</span></li>
+    </ul>
+  </section>
+
+  <!-- ============ GALLERY (16 slots, empties auto-hide) ============ -->
+  <section id="page-gallery" class="page">
+    <div class="gallery-grid">
+      <div class="tile"><img src="images/gallery-01.png" alt="Gallery 1"  onerror="this.parentElement.style.display='none'"></div>
+      <div class="tile"><img src="images/gallery-02.png" alt="Gallery 2"  onerror="this.parentElement.style.display='none'"></div>
+      <div class="tile"><img src="images/gallery-03.png" alt="Gallery 3"  onerror="this.parentElement.style.display='none'"></div>
+      <div class="tile"><img src="images/gallery-04.png" alt="Gallery 4"  onerror="this.parentElement.style.display='none'"></div>
+      <div class="tile"><img src="images/gallery-05.png" alt="Gallery 5"  onerror="this.parentElement.style.display='none'"></div>
+      <div class="tile"><img src="images/gallery-06.png" alt="Gallery 6"  onerror="this.parentElement.style.display='none'"></div>
+      <div class="tile"><img src="images/gallery-07.png" alt="Gallery 7"  onerror="this.parentElement.style.display='none'"></div>
+      <div class="tile"><img src="images/gallery-08.png" alt="Gallery 8"  onerror="this.parentElement.style.display='none'"></div>
+      <div class="tile"><img src="images/gallery-09.png" alt="Gallery 9"  onerror="this.parentElement.style.display='none'"></div>
+      <div class="tile"><img src="images/gallery-10.png" alt="Gallery 10" onerror="this.parentElement.style.display='none'"></div>
+      <div class="tile"><img src="images/gallery-11.png" alt="Gallery 11" onerror="this.parentElement.style.display='none'"></div>
+      <div class="tile"><img src="images/gallery-12.png" alt="Gallery 12" onerror="this.parentElement.style.display='none'"></div>
+      <div class="tile"><img src="images/gallery-13.png" alt="Gallery 13" onerror="this.parentElement.style.display='none'"></div>
+      <div class="tile"><img src="images/gallery-14.png" alt="Gallery 14" onerror="this.parentElement.style.display='none'"></div>
+      <div class="tile"><img src="images/gallery-15.png" alt="Gallery 15" onerror="this.parentElement.style.display='none'"></div>
+      <div class="tile"><img src="images/gallery-16.png" alt="Gallery 16" onerror="this.parentElement.style.display='none'"></div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="page-contact" class="page">
+    <h2>Contact</h2>
+    <p class="sub">Let's make something together.</p>
+    <form class="contact-form" onsubmit="return false;">
+      <div><label>Name</label><input type="text" placeholder="Your name" /></div>
+      <div><label>Email</label><input type="email" placeholder="you@email.com" /></div>
+      <div><label>Message</label><textarea placeholder="Say hello..."></textarea></div>
+      <button type="submit">Send</button>
+    </form>
+    <div class="contact-info">
+      Or reach me directly:<br />
+      <a href="mailto:michellexuliu@gmail.com">michellexuliu@gmail.com</a> · <a href="tel:+16269934926">+1 626 993 4926</a>
+    </div>
+  </section>
+
+  <!-- ============ PROJECT 1 — Holiday Collection ============ -->
+  <section class="project-detail layout-top img-large text-left" data-index="0" style="--accent:#247247;">
+    <div class="detail-topbar"><button class="circle-btn icon-close" onclick="closeProject()" aria-label="Close"></button></div>
+    <div class="detail-header"><img src="images/project1-header.png" alt="Holiday Collection header" /></div>
+    <div class="detail-inner">
+      <h2 class="detail-title">Holiday Collection</h2>
+      <p class="detail-subtitle">Art Direction &nbsp;|&nbsp; Communication</p>
+      <!-- description moved to top, right under title/subtitle -->
+      <div class="detail-desc" style="text-align:left;">
+        <p style="margin-bottom:16px;">Originally planned for in-app events tied to an upcoming holiday, the challenge was to create cover art that felt festive and relevant—yet remained evergreen and not overly dependent on specific IP.</p>
+        <p style="margin-bottom:16px;">To address this, I focused on capturing the essence of the holiday through stylized, versatile design. I explored a range of visual directions and collaborated closely with a 3D artist to build a library of playful, thematic objects that could be repurposed across future campaigns. The result is a set of adaptable, eye-catching assets that balance seasonal relevance with long-term usability.</p>
+        <p>The chiclet fan structure mimics the motion of a deck of cards being shuffled. It brings a dynamic, energetic feel that plays into the idea of something exciting unfolding in the moment—capturing the idea of an in-app event that is "happening now."</p>
+      </div>
+      <div class="detail-body">
+        <div class="detail-images">
+          <img src="images/project1-detail-01.png" alt="Holiday Collection detail 1" />
+          <img src="images/project1-detail-02.png" alt="Holiday Collection detail 2" />
+          <img src="images/project1-detail-03.png" alt="Holiday Collection detail 3" />
+          <img src="images/project1-detail-04.png" alt="Holiday Collection detail 4" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROJECT 2 — Games Collection ============ -->
+  <section class="project-detail layout-top img-large text-left" data-index="1" style="--accent:#16a34a;">
+    <div class="detail-topbar"><button class="circle-btn icon-close" onclick="closeProject()" aria-label="Close"></button></div>
+    <div class="detail-header"><img src="images/project2-header.png" alt="Games Collection header" /></div>
+    <div class="detail-inner">
+      <h2 class="detail-title">Games Collection</h2>
+      <p class="detail-subtitle">Visual System &nbsp;|&nbsp; Design Component</p>
+      <p class="detail-desc">When I was given the task of designing a system for a group of games that requires weekly updates, business affairs' approval, and sometimes extremely low-fidelity assets, it was both important and challenging to come up with an essential set of elements.</p>
+      <div class="detail-body">
+        <div class="detail-images">
+          <img src="images/project2-detail-01.png" alt="Games Collection detail 1" />
+          <img src="images/project2-detail-02.png" alt="Games Collection detail 2" />
+          <img src="images/project2-detail-03.png" alt="Games Collection detail 3" />
+          <img src="images/project2-detail-04.png" alt="Games Collection detail 4" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROJECT 3 (index 2) — WWDC Campaign ============ -->
+  <section class="project-detail layout-top img-large text-left" data-index="2" style="--accent:#a855f7;">
+    <div class="detail-topbar"><button class="circle-btn icon-close" onclick="closeProject()" aria-label="Close"></button></div>
+    <div class="detail-header"><img src="images/project3-header.png" alt="WWDC Campaign header" /></div>
+    <div class="detail-inner">
+      <h2 class="detail-title">WWDC Campaign</h2>
+      <p class="detail-subtitle">Problem solving &nbsp;|&nbsp; Communication &nbsp;|&nbsp; Production</p>
+      <div class="detail-desc" style="text-align:left;">
+        <p style="margin-bottom:16px;"><strong>Overview &amp; Problem</strong><br />
+        Developer assets for Apps and Games differ significantly in their presentation and purpose. In the realm of games, captivating high-quality character art often takes center stage, effectively presenting the essence of the game. However, when it comes to Apps, the challenge of presentation is more nuanced. Apps encompass a wide range of categories, including language-learning apps, AR experiences, meditation apps, and more. How to implement two different art styles into a harmonious visual consistency—maintaining the charm of each product while ensuring they complement and enhance each other seamlessly—is a challenge I always encounter.</p>
+        <p><strong>Solution</strong><br />
+        Design a key visual that communicates the app's unique value, and craft a cohesive visual system that strikes the right balance between the captivating appeal of a game character and the less visually appealing nature of an app's user interface. Utilizing screenshots, promotional materials, and conducted research, I identify the essential elements or user interface that best represents the core value of the app. Crafting these assets using vibrant colors, toning down the visual complexity, and building a cohesive visual following the brand guideline—focusing on maintaining visual consistency across all platforms, ensuring uniformity in lighting, color grading, and scale throughout the design.</p>
+      </div>
+      <div class="detail-body">
+        <div class="detail-images">
+          <img src="images/project3-detail-01.png" alt="WWDC Campaign detail 1" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROJECT 4 (index 3) — Value's Moment Takeover ============ -->
+  <section class="project-detail layout-full img-large text-left" data-index="3" style="--accent:#ea580c;">
+    <div class="detail-topbar"><button class="circle-btn icon-close" onclick="closeProject()" aria-label="Close"></button></div>
+    <div class="detail-inner">
+      <h2 class="detail-title">Value's Moment Takeover</h2>
+      <p class="detail-subtitle">Composition &nbsp;|&nbsp; Production</p>
+      <div class="detail-body">
+        <div class="detail-images"><img src="images/project4a.jpg" alt="Project 4" /></div>
+        <div class="detail-text"><p>Your description for Value's Moment Takeover.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROJECT 5 (index 4) — Disney Skills ============ -->
+  <section class="project-detail layout-left img-small text-left" data-index="4" style="--accent:#0891b2;">
+    <div class="detail-topbar"><button class="circle-btn icon-close" onclick="closeProject()" aria-label="Close"></button></div>
+    <div class="detail-inner">
+      <h2 class="detail-title">Disney Skills</h2>
+      <p class="detail-subtitle">Logo Design &nbsp;|&nbsp; Brand identity</p>
+      <div class="detail-body">
+        <div class="detail-images"><img src="images/project5.jpg" alt="Project 5" /></div>
+        <div class="detail-text"><p>Your description for Disney Skills.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROJECT 6 (index 5) — Disney Sweepstakes ============ -->
+  <section class="project-detail layout-top img-medium text-center" data-index="5" style="--accent:#db2777;">
+    <div class="detail-topbar"><button class="circle-btn icon-close" onclick="closeProject()" aria-label="Close"></button></div>
+    <div class="detail-inner">
+      <h2 class="detail-title">Disney Sweepstakes</h2>
+      <p class="detail-subtitle">Creative concept &nbsp;|&nbsp; Production</p>
+      <div class="detail-body">
+        <div class="detail-images"><img src="images/project6.jpg" alt="Project 6" /></div>
+        <div class="detail-text"><p>Your description for Disney Sweepstakes.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <button id="toTop" class="circle-btn icon-up" onclick="scrollProjectTop()" aria-label="Back to top"></button>
+
+  <script>
+    const pages = document.querySelectorAll('.page');
+    const navLinks = document.querySelectorAll('.navbar a');
+    const navbar = document.getElementById('navbar');
+    const navStamp = document.getElementById('navStamp');
+    const homeBg = document.getElementById('home-bg');
+
+    function showPage(name) {
+      closeProject();
+      pages.forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+      navLinks.forEach(a => a.classList.toggle('active', a.dataset.nav === name));
+
+      const isWelcome = (name === 'welcome');
+      navbar.style.display   = isWelcome ? 'none' : 'flex';
+      navStamp.style.display = isWelcome ? 'none' : 'block';
+      homeBg.style.display   = 'block';
+      window.scrollTo(0, 0);
+    }
+
+    const panels = document.querySelectorAll('.project-detail');
+    const toTop = document.getElementById('toTop');
+    let current = 0;
+
+    function openProject(i) {
+      closeProject();
+      current = i;
+      panels[i].classList.add('open');
+      panels[i].scrollTop = 0;
+      panels[i].onscroll = () => { toTop.classList.toggle('show', panels[i].scrollTop > 200); };
+    }
+    function closeProject() {
+      panels.forEach(p => { p.classList.remove('open'); p.onscroll = null; });
+      toTop.classList.remove('show');
+    }
+    function nextProject() { openProject((current + 1) % panels.length); }
+    function prevProject() { openProject((current - 1 + panels.length) % panels.length); }
+    function scrollProjectTop() { panels[current].scrollTo({ top: 0, behavior: 'smooth' }); }
+
+    document.addEventListener('keydown', (e) => {
+      const open = [...panels].some(p => p.classList.contains('open'));
+      if (!open) return;
+      if (e.key === 'Escape') closeProject();
+      else if (e.key === 'ArrowRight') nextProject();
+      else if (e.key === 'ArrowLeft')  prevProject();
+    });
+
+    /* ===== live DATE ===== */
+    (function () {
+      const d = new Date();
+      const opts = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+      document.getElementById('statusDate').textContent = d.toLocaleDateString('en-US', opts);
+    })();
+
+    /* ===== live WEATHER (free, no API key — Open-Meteo) =====
+       Asks for location; if denied or offline, shows a gentle fallback. */
+    (function () {
+      const el = document.getElementById('statusWeather');
+      const codes = {
+        0:'Clear ☀️',1:'Mostly clear 🌤️',2:'Partly cloudy ⛅',3:'Overcast ☁️',
+        45:'Foggy 🌫️',48:'Foggy 🌫️',51:'Light drizzle 🌦️',53:'Drizzle 🌦️',55:'Drizzle 🌦️',
+        61:'Light rain 🌧️',63:'Rain 🌧️',65:'Heavy rain 🌧️',71:'Light snow 🌨️',73:'Snow 🌨️',
+        75:'Heavy snow ❄️',80:'Showers 🌦️',81:'Showers 🌦️',82:'Heavy showers ⛈️',
+        95:'Thunderstorm ⛈️',96:'Thunderstorm ⛈️',99:'Thunderstorm ⛈️'
+      };
+      if (!navigator.geolocation) { el.textContent = ''; return; }
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          try {
+            const { latitude, longitude } = pos.coords;
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code&temperature_unit=fahrenheit`;
+            const res = await fetch(url);
+            const data = await res.json();
+            const t = Math.round(data.current.temperature_2m);
+            const w = codes[data.current.weather_code] || '';
+            el.textContent = `${t}°F · ${w}`;
+          } catch (e) {
+            el.textContent = '';
+          }
+        },
+        () => { el.textContent = ''; }   // user denied location → hide gracefully
+      );
+    })();
+
+    showPage('welcome');
+  </script>
+</body>
+</html>
