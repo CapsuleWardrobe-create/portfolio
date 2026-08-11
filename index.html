@@ -143,8 +143,10 @@
     .detail-inner { padding: 40px 56px 100px; max-width: 1100px; margin: 0 auto; }
 
     .detail-title { font-size: 30px; margin-top: 8px; text-align: center; color: #000000; }
-    .detail-subtitle { text-align: center; color: #666; font-size: 0.95rem; letter-spacing: 0.02em; margin-top: 6px; margin-bottom: 32px; }
-    .detail-desc { max-width: 720px; margin: 0 auto 40px; color: #333; text-align: center; }
+       .detail-subtitle { text-align: center; color: #666; font-size: 18px; letter-spacing: 0.02em; margin-top: 6px; margin-bottom: 32px; }
+
+       .detail-desc { max-width: 720px; margin: 0 auto 40px; color: #333; text-align: center; font-size: 18px; }
+
     /* force-center content even where inline left-align was set */
     .detail-desc[style*="left"] { text-align: center !important; }
     .detail-text { text-align: center; }
@@ -162,7 +164,8 @@
     .detail-images { display: flex; flex-direction: column; gap: 20px; }
     .detail-images img { width: 100%; border-radius: 8px; display: block; }
     .detail-text { max-width: 720px; margin: 0 auto; }
-    .detail-text p { margin-bottom: 16px; color: #333; }
+        .detail-text p { margin-bottom: 16px; color: #333; font-size: 18px; }
+
 
     .layout-left  .detail-body { grid-template-columns: var(--img-col) 1fr; }
     .layout-right .detail-body { grid-template-columns: 1fr var(--img-col); }
@@ -358,44 +361,64 @@
     </div>
   </section>
 
-  <!-- ============ 3 — Games Collection ============ -->
+    <!-- ============ 3 — Games Collection ============ -->
   <section class="project-detail layout-top text-left" data-index="3" style="--accent:#16a34a;">
     <div class="detail-topbar"><button class="circle-btn icon-close" onclick="closeProject()" aria-label="Close"></button></div>
     <div class="detail-header"><img src="images/project2-header.png" alt="Games Collection header" /></div>
     <div class="detail-inner">
       <h2 class="detail-title">Games Collection</h2>
       <p class="detail-subtitle">Visual System &nbsp;|&nbsp; Design Component</p>
-      <p class="detail-desc">When I was given the task of designing a system for a group of games that requires weekly updates, business affairs' approval, and sometimes extremely low-fidelity assets, it was both important and challenging to come up with an essential set of elements.</p>
+
+      <p class="detail-desc">I was tasked with designing a system for a group of games that required weekly updates, business affairs approval, and often extremely low-fidelity assets. Creating a set of essential, flexible elements that could hold up under these constraints was both critical and challenging.</p>
+
+      <div class="detail-section"><h3>Component</h3></div>
+      <p class="detail-desc">Because the cover art needed a weekly refresh, I explored a mesh pattern as an evergreen foundation, a symbol that feels timeless and generic enough to sit behind ever-changing content without raising approval or licensing issues. After testing several directions, I landed on a center-focused chiclet with line art radiating outward, an approach that speaks to the core spirit of the App Store.</p>
+
       <div class="detail-images">
-        <img src="images/project2-detail-04.png" alt="Games detail 4" />
-        <img src="images/project2-detail-01.png" alt="Games detail 1" />
-        <div class="detail-text" style="margin-bottom:0;">
-          <h3 style="font-size:1.4rem; margin-bottom:10px;">Gradient Study</h3>
-          <p>When working with Games, the energy is active and the color is bold; a vibrant gradient provides dynamic motion in a static way. It became the core identity of most of the Games Collections. This set of gradient explorations has been incorporated into several subsequent projects currently running on the App Store.</p>
-          <p style="color:#777; font-size:0.9rem;">Tool: Illustrator</p>
-        </div>
-        <img src="images/project2-detail-02.png" alt="Gradient study" />
-        <img src="images/project2-detail-03.png" alt="Games detail 3" />
+        <img src="images/project2-detail-01.png" alt="Games Collection detail 1" />
+      </div>
+
+      <div class="detail-section"><h3>The Color</h3></div>
+      <p class="detail-desc">A vibrant color gradient brings it all together, giving the system a playful, fun, and modern feel.</p>
+
+      <div class="detail-images">
+        <img src="images/project2-detail-02.png" alt="Games Collection detail 2" />
+        <img src="images/project2-detail-03.png" alt="Games Collection detail 3" />
+        <img src="images/project2-detail-04.png" alt="Games Collection detail 4" />
       </div>
     </div>
   </section>
 
-  <!-- ============ 4 — WWDC Campaign ============ -->
-  <section class="project-detail layout-top img-large text-left" data-index="4" style="--accent:#a855f7;">
+
+    <!-- ============ 4 — WWDC Campaign ============ -->
+  <section class="project-detail layout-top text-left" data-index="4" style="--accent:#a855f7;">
     <div class="detail-topbar"><button class="circle-btn icon-close" onclick="closeProject()" aria-label="Close"></button></div>
     <div class="detail-header"><img src="images/project3-header.png" alt="WWDC Campaign header" /></div>
     <div class="detail-inner">
       <h2 class="detail-title">WWDC Campaign</h2>
       <p class="detail-subtitle">Problem solving &nbsp;|&nbsp; Communication &nbsp;|&nbsp; Production</p>
-      <div class="detail-desc" style="text-align:left;">
-        <p style="margin-bottom:16px;"><strong>Overview &amp; Problem</strong><br />
-        Developer assets for Apps and Games differ significantly in their presentation and purpose. In the realm of games, captivating high-quality character art often takes center stage, effectively presenting the essence of the game. However, when it comes to Apps, the challenge of presentation is more nuanced. Apps encompass a wide range of categories, including language-learning apps, AR experiences, meditation apps, and more. How to implement two different art styles into a harmonious visual consistency—maintaining the charm of each product while ensuring they complement and enhance each other seamlessly—is a challenge I always encounter.</p>
-        <p><strong>Solution</strong><br />
-        Design a key visual that communicates the app's unique value, and craft a cohesive visual system that strikes the right balance between the captivating appeal of a game character and the less visually appealing nature of an app's user interface. Utilizing screenshots, promotional materials, and conducted research, I identify the essential elements or user interface that best represents the core value of the app. Crafting these assets using vibrant colors, toning down the visual complexity, and building a cohesive visual following the brand guideline—focusing on maintaining visual consistency across all platforms, ensuring uniformity in lighting, color grading, and scale throughout the design.</p>
+
+      <div class="detail-section"><h3>Overview &amp; Problem</h3></div>
+      <p class="detail-desc">Developer assets for Apps and Games differ significantly in their presentation and purpose. In the realm of games, captivating high-quality character art often takes center stage, effectively presenting the essence of the game. However, when it comes to Apps, the challenge of presentation is more nuanced. Apps encompass a wide range of categories, including language-learning apps, AR experiences, meditation apps, and more. How to implement two different art styles into a harmonious visual consistency—maintaining the charm of each product while ensuring they complement and enhance each other seamlessly—is a challenge I always encounter.</p>
+
+      <div class="detail-images">
+        <img src="images/project3-detail-01.png" alt="WWDC Campaign detail 1" />
       </div>
-      <div class="detail-body"><div class="detail-images"><img src="images/project3-detail-01.png" alt="WWDC detail 1" /></div></div>
+
+      <div class="detail-section"><h3>Solution</h3></div>
+      <p class="detail-desc">Design a key visual that communicates the app's unique value, and craft a cohesive visual system that strikes the right balance between the captivating appeal of a game character and the less visually appealing nature of an app's user interface. Utilizing screenshots, promotional materials, and conducted research, I identify the essential elements or user interface that best represents the core value of the app. Crafting these assets using vibrant colors, toning down the visual complexity, and building a cohesive visual following the brand guideline—focusing on maintaining visual consistency across all platforms, ensuring uniformity in lighting, color grading, and scale throughout the design.</p>
+
+      <div class="detail-images">
+        <img src="images/project3-detail-02.png" alt="WWDC Campaign detail 2" />
+      </div>
+
+      <div class="detail-section"><h3>On iPad, Apple TV, Vision Pro</h3></div>
+      <div class="detail-images">
+        <img src="images/project3-detail-03.png" alt="On iPad, Apple TV, Vision Pro" />
+      </div>
     </div>
   </section>
+
 
   <!-- ============ 5 — Value's Moment Takeover ============ -->
   <section class="project-detail layout-top text-left" data-index="5" style="--accent:#ea580c;">
@@ -452,14 +475,16 @@
   <!-- ============ 7 — Disney Sweepstakes ============ -->
   <section class="project-detail layout-top text-left" data-index="7" style="--accent:#db2777;">
     <div class="detail-topbar"><button class="circle-btn icon-close" onclick="closeProject()" aria-label="Close"></button></div>
-       <div class="detail-header" style="width:70%; margin:0 auto;"><img src="images/project8-header.png" alt="Disney Sweepstakes header" style="border-radius:16px;" /></div>
-
+    <!-- title + subtitle FIRST, with a little top spacing -->
+    <h2 class="detail-title" style="margin-top:48px;">Disney Sweepstakes</h2>
+    <p class="detail-subtitle">Creative concept &nbsp;|&nbsp; Production</p>
+    <!-- header image below -->
+    <div class="detail-header" style="width:70%; margin:0 auto;"><img src="images/project8-header.png" alt="Disney Sweepstakes header" style="border-radius:16px;" /></div>
     <div class="detail-inner">
-      <h2 class="detail-title">Disney Sweepstakes</h2>
-      <p class="detail-subtitle">Creative concept &nbsp;|&nbsp; Production</p>
       <div class="detail-body"><div class="detail-images"><img src="images/project6.jpg" alt="Disney Sweepstakes" onerror="this.style.display='none'" /></div></div>
     </div>
   </section>
+
 
   <button id="toTop" class="circle-btn icon-up" onclick="scrollProjectTop()" aria-label="Back to top"></button>
 
