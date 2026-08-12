@@ -399,11 +399,12 @@
 
   <script>
     /* ===== CHAT GATE ===== */
-    const chatAnswers = {
-      specialize: "A bit of everything visual! 🎨 Visual design, editorial & content design, photography, illustration, and — as you can probably tell from this site — AI-assisted development.",
-      tools:      "The usual suspects — Sketch, Figma, and the Adobe Creative Suite. But honestly? Some of my best ideas still start with a plain pencil and paper ✏️",
-      fun:        "In my free time, I'm a YouTube travel vlogger 🎥✈️ — so when I'm not designing, I'm probably filming somewhere far more scenic than a desk."
+       const chatAnswers = {
+      specialize: "A bit of everything visual! 🎨 Visual design, editorial & content, design system, photography, illustration, and — as you can probably tell from this site — AI-assisted development.",
+      tools:      "Sketch, Figma, and the Adobe Creative Suite. But honestly? Some of my best ideas still start with pencil and paper ✏️",
+      fun:        "In my free time, I'm a YouTube travel vlogger 🎥✈️ — so when I'm not designing, I'm probably filming somewhere scenic."
     };
+
     const chatLabels = {
       specialize: "What do you specialize in?", tools: "What tools do you use?", fun: "Tell me something fun about you"
     };
@@ -433,19 +434,20 @@
         document.getElementById('chatPwInput').focus();
       });
     }
-    function checkChatPw() {
+     function checkChatPw() {
       const wrap = document.getElementById('chatPw');
       const val = document.getElementById('chatPwInput').value;
       if (val === 'the0dyssey') {
         sessionStorage.setItem('unlocked', 'yes');
         wrap.classList.remove('show');
-        botReply("Welcome in! 🎉 Right this way…", () => { setTimeout(() => showPage('work'), 900); });
+        showPage('work');                 // go straight in, no reply
       } else {
         wrap.classList.remove('error'); void wrap.offsetWidth; wrap.classList.add('error');
         document.getElementById('chatPwInput').value = '';
         botReply("Hmm, that's not quite it! 😊 Give it another try.");
       }
     }
+
 
     const pages = document.querySelectorAll('.page');
     const navLinks = document.querySelectorAll('.navbar a');
