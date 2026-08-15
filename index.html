@@ -5,7 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Michelle Liu — Portfolio</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+   
+    @media (max-width: 640px) {
+      .img-pair { flex-direction: column; gap: 16px; }
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }    /* 4-column image grid — natural proportions, no cropping */
+    .img-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; width: 100%; margin: 20px 0; align-items: start; }
+    .img-grid-4 img { width: 100%; height: auto; border-radius: 8px; display: block; }
+    @media (max-width: 900px) { .img-grid-4 { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 640px) { .img-grid-4 { grid-template-columns: repeat(2, 1fr); } }
+
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1a1a1a; line-height: 1.6; overflow-x: hidden; background: #1a1a1a; }
 
     #home-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; min-height: 100%; object-fit: cover; z-index: -1; }
@@ -40,7 +50,6 @@
     #page-welcome { position: relative; min-height: 100vh; display: none; align-items: center; justify-content: center; padding: 40px 20px; }
     #page-welcome.active { display: flex; }
     .home-hero { text-align: center; }
-
     .welcome-stamp { display: block; width: 60px; height: auto; margin: 0 auto 40px; }
 
     /* ============ CHAT GATE ============ */
@@ -131,27 +140,66 @@
     .icon-up::before { content: ""; position: absolute; left: 50%; top: 50%; width: 2px; height: 18px; background: #1a1a1a; transform: translate(-50%, -50%); }
     .icon-up::after { content: ""; position: absolute; left: 50%; top: 50%; width: 10px; height: 10px; border-left: 2px solid #1a1a1a; border-top: 2px solid #1a1a1a; transform: translate(-50%, -50%) translateY(-2px) rotate(45deg); }
 
+    /* header: full width of card */
     .detail-header { margin: 0; }
     .detail-header img { width: 100%; height: auto; display: block; border-radius: 32px 32px 0 0; }
-    .detail-inner { padding: 40px 56px 100px; max-width: 1100px; margin: 0 auto; }
 
-    .detail-title { font-size: 30px; margin-top: 8px; text-align: center; color: #000000; }
-    .detail-subtitle { text-align: center; color: #666; font-size: 18px; letter-spacing: 0.02em; margin-top: 6px; margin-bottom: 32px; }
-    .detail-desc { max-width: 720px; margin: 0 auto 40px; color: #333; text-align: center; font-size: 18px; }
-    .detail-section { max-width: 720px; margin: 40px auto 16px; text-align: center; }
+    /* inner has NO side padding — the sizing system controls widths */
+    .detail-inner { padding: 40px 0 100px; }
+
+    /* titles/subtitles centered, capped nicely */
+    .detail-title { font-size: 30px; margin: 8px auto 0; text-align: center; color: #000000; max-width: 900px; padding: 0 40px; }
+    .detail-subtitle { text-align: center; color: #666; font-size: 18px; letter-spacing: 0.02em; margin: 6px auto 32px; max-width: 900px; padding: 0 40px; }
+
+       /* ===== IMAGE + TEXT SIZING SYSTEM (card-relative, matches reference) ===== */
+    /* Full = fills the whole card */
+    .img-full { display: block; width: 100%; margin: 20px 0; border-radius: 0; }
+
+    /* Medium = card minus 240px each side (also the text-block width) */
+    .img-medium-size, .detail-desc, .detail-section, .detail-text {
+      display: block; width: calc(100% - 480px); margin-left: auto; margin-right: auto;
+    }
+    .img-medium-size { margin-top: 20px; margin-bottom: 20px; border-radius: 8px; }
+
+    /* Small = card minus 360px each side */
+    .img-small-size { display: block; width: calc(100% - 720px); margin: 20px auto; border-radius: 8px; }
+
+    .detail-desc { color: #333; text-align: center; font-size: 18px; margin-bottom: 40px; }
+    .detail-section { text-align: center; margin-top: 40px; margin-bottom: 16px; }
     .detail-section h3 { font-size: 1.3rem; color: #000; }
-
-    .detail-images { display: flex; flex-direction: column; gap: 20px; }
-    .detail-images img { width: 100%; border-radius: 8px; display: block; }
-    .detail-text { max-width: 720px; margin: 0 auto; text-align: center; }
+    .detail-text { text-align: center; }
     .detail-text p { margin-bottom: 16px; color: #333; font-size: 18px; }
+
+       /* Pair = two images side by side, at Medium width, 8px gap */
+    .img-pair { display: flex; gap: 8px; width: calc(100% - 480px); margin: 20px auto; justify-content: center; }
+    .img-pair img { width: 100%; border-radius: 8px; display: block; flex: 1; min-width: 0; }
+
+
+    /* ===== responsive: shrink insets on smaller screens ===== */
+      @media (max-width: 1200px) {
+      .img-medium-size, .detail-desc, .detail-section, .detail-text, .img-pair { width: calc(100% - 240px); }
+      .img-small-size { width: calc(100% - 360px); }
+    }
+    @media (max-width: 800px) {
+      .img-medium-size, .detail-desc, .detail-section, .detail-text, .img-pair { width: calc(100% - 100px); }
+      .img-small-size { width: calc(100% - 160px); }
+    }
+
+    @media (max-width: 640px) {
+      .img-medium-size, .detail-desc, .detail-section, .detail-text,
+      .img-small-size, .img-pair { width: calc(100% - 40px); }
+      .img-pair { flex-direction: column; gap: 16px; }
+    }
+
+
+    /* legacy container (still used by some projects) — center its images */
+    .detail-images { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+    .detail-images img { width: 100%; max-width: 960px; border-radius: 8px; display: block; margin: 0 auto; }
 
     #toTop { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); z-index: 320; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
     #toTop.show { opacity: 1; pointer-events: auto; }
     #toTop.icon-up:hover { transform: translateX(-50%) translateY(-3px); }
 
-    @media (min-width: 1600px) { .detail-inner { max-width: 1200px; } }
-    @media (max-width: 1280px) { #page-work, #page-gallery { padding: 90px 32px 80px; } .detail-inner { padding: 36px 44px 100px; } }
     @media (max-width: 1024px) { .project-detail { left: 28px; right: 28px; } .gallery-grid { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 640px) {
       .navbar { gap: 20px; padding: 18px 20px; } .navbar a { font-size: 0.95rem; }
@@ -171,8 +219,9 @@
       .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
       #page-about { padding: 80px 20px 60px; }
       .project-detail { top: 60px; left: 0; right: 0; border-radius: 0; }
-      .detail-header img { border-radius: 0; } .detail-inner { padding: 24px 20px 90px; }
-      .detail-title { font-size: 22px; } .detail-subtitle { font-size: 0.9rem; } .detail-desc, .detail-text p { font-size: 0.95rem; }
+      .detail-header img { border-radius: 0; } .detail-inner { padding: 24px 0 90px; }
+      .detail-title { font-size: 22px; padding: 0 20px; } .detail-subtitle { font-size: 0.9rem; padding: 0 20px; }
+      .detail-desc, .detail-section, .detail-text { padding: 0 20px; } .detail-desc, .detail-text p { font-size: 0.95rem; }
       .detail-topbar { top: 16px; right: 16px; } .circle-btn { width: 36px; height: 36px; } .icon-close::before, .icon-close::after { width: 13px; }
     }
   </style>
@@ -192,7 +241,7 @@
   </nav>
   <img class="nav-stamp" id="navStamp" src="images/mystamp-01.png" alt="Go to Work" onclick="showPage('work')" />
 
-  <!-- ============ WELCOME = PUBLIC CHAT GATE ============ -->
+  <!-- ============ WELCOME = CHAT GATE ============ -->
   <section id="page-welcome" class="page active">
     <div class="home-hero">
       <img class="welcome-stamp" src="images/mystamp-01.png" alt="Michelle Liu" />
@@ -247,7 +296,7 @@
     </div>
   </section>
 
-  <!-- ============ CONTACT (id kept as about) ============ -->
+  <!-- ============ CONTACT ============ -->
   <section id="page-about" class="page">
     <h2>Contact</h2>
     <p class="sub">Let's make something together.</p>
@@ -262,8 +311,7 @@
       Or reach me directly:<br />
       <a href="mailto:michellexuliu@gmail.com">michellexuliu@gmail.com</a> · <a href="tel:+16269934926">+1 626 993 4926</a>
       <div class="social-links">
-               <a href="https://www.linkedin.com/in/michellexuliu" target="_blank" rel="noopener" aria-label="LinkedIn">
-
+        <a href="https://www.linkedin.com/in/michellexuliu" target="_blank" rel="noopener" aria-label="LinkedIn">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-6.6c0-1.57-.03-3.6-2.2-3.6-2.2 0-2.53 1.72-2.53 3.49V23h-4V8z"/></svg>
         </a>
       </div>
@@ -271,7 +319,7 @@
   </section>
 
   <!-- ============ 0 — This Website ============ -->
-  <section class="project-detail text-left" data-index="0" style="--accent:#5b6cff;">
+  <section class="project-detail" data-index="0" style="--accent:#5b6cff;">
     <div class="detail-topbar"><button class="circle-btn icon-close" onclick="closeProject()" aria-label="Close"></button></div>
     <div class="detail-inner">
       <h2 class="detail-title">Building with AI</h2>
@@ -280,44 +328,64 @@
         <p style="margin-bottom:16px;">Working conversationally with an AI assistant, I directed every design decision: the ambient-light background motion, frosted-glass project cards, playful micro-interactions, and pixel-perfect adjustments. I learned to translate visual intent into technical requests, debug issues (from video autoplay to DNS), and iterate rapidly, treating the AI like a junior developer I was art-directing.</p>
         <p>Built with HTML, CSS, and JavaScript, hosted on Vercel.</p>
       </div>
-      <div class="detail-images"><img src="images/project-web-01.png" alt="This website" onerror="this.style.display='none'" /></div>
+      <img class="img-medium-size" src="images/project-web-01.png" alt="This website" onerror="this.style.display='none'" />
     </div>
   </section>
 
   <!-- ============ 1 — Internal QA Testing Tool ============ -->
-  <section class="project-detail text-left" data-index="1" style="--accent:#0891b2;">
+  <section class="project-detail" data-index="1" style="--accent:#0891b2;">
     <div class="detail-topbar"><button class="circle-btn icon-close" onclick="closeProject()" aria-label="Close"></button></div>
     <div class="detail-inner">
       <h2 class="detail-title">Internal QA Testing Tool</h2>
       <p class="detail-subtitle">Designed &amp; Coded with Claude</p>
       <div class="detail-desc"><p>My team and I have been struggling with Apple TV content testing for years. With the help of AI, I was able to build an easy drag-and-drop testing tool that not only helps designers test the accuracy of the art, but also allows one-click download for any presentation purposes.</p></div>
-      <div class="detail-images">
-        <video src="media/qa-demo.mp4" autoplay muted loop playsinline controls style="width:100%; border-radius:8px; display:block;"></video>
-        <img src="images/project-qa-01.png" alt="QA testing tool" onerror="this.style.display='none'" />
-      </div>
+      <video class="img-medium-size" src="media/qa-demo.mp4" autoplay muted loop playsinline controls style="border-radius:8px;"></video>
     </div>
   </section>
-
   <!-- ============ 2 — Game Franchise Collection ============ -->
-  <section class="project-detail text-left" data-index="2" style="--accent:#7c3aed;">
+  <section class="project-detail" data-index="2" style="--accent:#7c3aed;">
     <div class="detail-topbar"><button class="circle-btn icon-close" onclick="closeProject()" aria-label="Close"></button></div>
     <div class="detail-header"><img src="images/project04-header.png" alt="Game Franchise Collection header" /></div>
     <div class="detail-inner">
-      <h2 class="detail-title">Game Franchise Collection</h2>
+      <h2 class="detail-title">Game Franchise Collection (Refresh)</h2>
       <p class="detail-subtitle">Visual System &nbsp;|&nbsp; Design Component &nbsp;|&nbsp; Production</p>
-      <div class="detail-images"><img src="images/project04-detail-02.png" alt="Game Franchise Collection detail 2" /></div>
-      <div class="detail-section"><h3>The Process</h3></div>
-      <div class="detail-images">
-        <img src="images/project04-detail-01.png" alt="Game Franchise Collection detail 1" />
-        <img src="images/project04-detail-03.png" alt="Game Franchise Collection detail 3" />
+
+      <div class="detail-desc"><p>This visual system was originally created in 2023 to promote games that fall under the same franchise. Because all the games shared the same ownership, there was more room to be creative. An oversized character-art motif became the best way to showcase each game's spirit and instantly draw the user's attention, while three smaller characters served as the secondary layer.</p></div>
+
+      <div class="img-pair">
+        <img src="images/project04-detail-02.png" alt="Game Franchise detail 2" />
+        <img src="images/project04-detail-03.png" alt="Game Franchise detail 3" />
       </div>
+
+      <div class="detail-desc" style="margin-top:40px;"><p>For the refresh, I focused on bringing in newer, on-trend design elements, like a frosted-glass effect and a balance of ambient versus vibrant color, while keeping the large-character and supplemental-character motif intact to preserve the core branding.</p></div>
+
+      <div class="detail-section"><h3>The Concept</h3></div>
+      <div class="detail-desc"><p>The concept still ties closely to the App Store chiclet branding. I wanted to create a visual that minimizes the backdrop and puts all the focus on the game characters. The layered chiclets create an organic divider that separates the game IPs, providing a flexible environment for titles that require absolutely no overlapping. I intentionally stretched the chiclets beyond the cropping zone, so the shape stays subtle in preview but reveals itself clearly when opened on a wider device.</p></div>
+
+      <img class="img-medium-size" src="images/project04-detail-01.png" alt="Game Franchise detail 1" />
+
+      <div class="detail-section"><h3>Design Iteration</h3></div>
+
+      <div class="img-pair">
+        <img src="images/project04-detail-04.png" alt="Game Franchise detail 4" />
+        <img src="images/project04-detail-06.png" alt="Game Franchise detail 6" />
+      </div>
+          <img class="img-medium-size" src="images/project04-detail-10.png" alt="Game Franchise detail 10" />
+
       <div class="detail-section"><h3>Other Explores</h3></div>
-      <div class="detail-images"><img src="images/project04-detail-04.png" alt="Game Franchise Collection detail 4" /></div>
+      <div class="img-pair">
+        <img src="images/project04-detail-05.png" alt="Game Franchise detail 5" />
+        <img src="images/project04-detail-07.png" alt="Game Franchise detail 7" />
+      </div>
+      <div class="img-pair">
+        <img src="images/project04-detail-08.png" alt="Game Franchise detail 8" />
+        <img src="images/project04-detail-09.png" alt="Game Franchise detail 9" />
+      </div>
     </div>
   </section>
 
   <!-- ============ 3 — Holiday Collection ============ -->
-  <section class="project-detail text-left" data-index="3" style="--accent:#247247;">
+  <section class="project-detail" data-index="3" style="--accent:#247247;">
     <div class="detail-topbar"><button class="circle-btn icon-close" onclick="closeProject()" aria-label="Close"></button></div>
     <div class="detail-header"><img src="images/project1-header.png" alt="Holiday Collection header" /></div>
     <div class="detail-inner">
@@ -328,121 +396,136 @@
         <p style="margin-bottom:16px;">To address this, I focused on capturing the essence of the holiday through stylized, versatile design. I explored a range of visual directions and collaborated closely with a 3D artist to build a library of playful, thematic objects that could be repurposed across future campaigns. The result is a set of adaptable, eye-catching assets that balance seasonal relevance with long-term usability.</p>
         <p>The chiclet fan structure mimics the motion of a deck of cards being shuffled. It brings a dynamic, energetic feel that plays into the idea of something exciting unfolding in the moment—capturing the idea of an in-app event that is "happening now."</p>
       </div>
-      <div class="detail-images">
-        <img src="images/project1-detail-01.png" alt="Holiday detail 1" />
-        <img src="images/project1-detail-02.png" alt="Holiday detail 2" />
-        <img src="images/project1-detail-03.png" alt="Holiday detail 3" />
+
+      <img class="img-medium-size" src="images/project1-detail-01.png" alt="Holiday detail 1" />
+      <img class="img-medium-size" src="images/project1-detail-02.png" alt="Holiday detail 2" />
+      <img class="img-medium-size" src="images/project1-detail-03.png" alt="Holiday detail 3" />
+
+      <div class="img-grid-4">
         <img src="images/project1-detail-04.png" alt="Holiday detail 4" />
+        <img src="images/project1-detail-05.png" alt="Holiday detail 5" />
+        <img src="images/project1-detail-06.png" alt="Holiday detail 6" />
+        <img src="images/project1-detail-07.png" alt="Holiday detail 7" />
+        <img src="images/project1-detail-08.png" alt="Holiday detail 8" />
+        <img src="images/project1-detail-09.png" alt="Holiday detail 9" />
+        <img src="images/project1-detail-10.png" alt="Holiday detail 10" />
+        <img src="images/project1-detail-11.png" alt="Holiday detail 11" />
+        <img src="images/project1-detail-12.png" alt="Holiday detail 12" />
+        <img src="images/project1-detail-13.png" alt="Holiday detail 13" />
+        <img src="images/project1-detail-14.png" alt="Holiday detail 14" />
+        <img src="images/project1-detail-15.png" alt="Holiday detail 15" />
       </div>
     </div>
   </section>
 
+
   <!-- ============ 4 — Games Collection ============ -->
-  <section class="project-detail text-left" data-index="4" style="--accent:#16a34a;">
+  <section class="project-detail" data-index="4" style="--accent:#16a34a;">
     <div class="detail-topbar"><button class="circle-btn icon-close" onclick="closeProject()" aria-label="Close"></button></div>
     <div class="detail-header"><img src="images/project2-header.png" alt="Games Collection header" /></div>
     <div class="detail-inner">
-      <h2 class="detail-title">Games Collection</h2>
+      <h2 class="detail-title">New Games Collection</h2>
       <p class="detail-subtitle">Visual System &nbsp;|&nbsp; Design Component</p>
+
       <div class="detail-section"><h3>Overview</h3></div>
-      <p class="detail-desc">I conceptualized and developed a brand identity and visual system for a store feature dedicated to promoting newly released games. The goal was to give new games and their developers greater visibility, encouraging better engagement and discovery within the platform.</p>
+      <div class="detail-desc"><p>I developed a brand identity and visual system for a store feature dedicated to promoting newly released games. The goal is to give new games and the developers greater visibility, encouraging better engagement and discovery within the platform.</p></div>
+
+      <img class="img-medium-size" src="images/project2-detail-04.png" alt="Games detail 4" />
+
       <div class="detail-section"><h3>The Challenge</h3></div>
-      <p class="detail-desc">The challenge was to come up with a system that required weekly updates, business affairs approval, and often extremely low-fidelity assets. Creating a set of essential, flexible elements that could hold up under these constraints was both critical and challenging.</p>
+      <div class="detail-desc"><p>Creating a set of essential, flexible elements that could hold up under the constraints (required weekly updates, BA approval, and often extremely low-fidelity assets) was both critical and challenging.</p></div>
+
       <div class="detail-section"><h3>Component</h3></div>
-      <p class="detail-desc">Because the cover art needed a weekly refresh, I explored a mesh pattern as an evergreen foundation, a symbol that feels timeless and generic enough to sit behind ever-changing content without raising approval or licensing issues. After testing several directions, I landed on a center-focused chiclet with line art radiating outward, an approach that speaks to the core spirit of the App Store. Tools used: Illustrator, Photoshop</p>
-      <div class="detail-images"><img src="images/project2-detail-01.png" alt="Games detail 1" /></div>
+      <div class="detail-desc"><p>Because the cover art needed a weekly refresh, I explored a mesh pattern as an evergreen foundation, a symbol that feels timeless and generic enough to sit behind ever-changing content without raising approval or licensing issues. After testing several directions, I landed on a center-focused chiclet with line art radiating outward, an approach that speaks to the core spirit of the App Store.  Tools: Illustrator</p></div>
+
+      <img class="img-medium-size" src="images/project2-detail-01.png" alt="Games detail 1" />
+
       <div class="detail-section"><h3>Color</h3></div>
-      <p class="detail-desc">A vibrant color gradient brings it all together, giving the system a playful, fun, and modern feel.</p>
-      <div class="detail-images">
+      <div class="detail-desc"><p>A vibrant color gradient brings it all together, giving the system a playful, fun, and modern feel.</p></div>
+
+<div class="img-pair">
         <img src="images/project2-detail-02.png" alt="Games detail 2" />
         <img src="images/project2-detail-03.png" alt="Games detail 3" />
-        <img src="images/project2-detail-04.png" alt="Games detail 4" />
+      </div>
+
+<div class="img-pair">
+        <img src="images/project2-detail-05.png" alt="Games detail 5" />
+        <img src="images/project2-detail-06.png" alt="Games detail 6" />
       </div>
     </div>
   </section>
 
   <!-- ============ 5 — WWDC Campaign ============ -->
-  <section class="project-detail text-left" data-index="5" style="--accent:#a855f7;">
+  <section class="project-detail" data-index="5" style="--accent:#a855f7;">
     <div class="detail-topbar"><button class="circle-btn icon-close" onclick="closeProject()" aria-label="Close"></button></div>
     <div class="detail-header"><img src="images/project3-header.png" alt="WWDC Campaign header" /></div>
     <div class="detail-inner">
       <h2 class="detail-title">WWDC Campaign</h2>
       <p class="detail-subtitle">Problem solving &nbsp;|&nbsp; Communication &nbsp;|&nbsp; Production</p>
       <div class="detail-section"><h3>Overview &amp; Problem</h3></div>
-      <p class="detail-desc">Developer assets for Apps and Games differ significantly in their presentation and purpose. In the realm of games, captivating high-quality character art often takes center stage, effectively presenting the essence of the game. However, when it comes to Apps, the challenge of presentation is more nuanced. Apps encompass a wide range of categories, including language-learning apps, AR experiences, meditation apps, and more. How to implement two different art styles into a harmonious visual consistency—maintaining the charm of each product while ensuring they complement and enhance each other seamlessly—is a challenge I always encounter.</p>
-      <div class="detail-images"><img src="images/project3-detail-01.png" alt="WWDC detail 1" /></div>
+      <div class="detail-desc"><p>Developer assets for Apps and Games differ significantly in their presentation and purpose. In the realm of games, captivating high-quality character art often takes center stage, effectively presenting the essence of the game. However, when it comes to Apps, the challenge of presentation is more nuanced. Apps encompass a wide range of categories, including language-learning apps, AR experiences, meditation apps, and more. How to implement two different art styles into a harmonious visual consistency—maintaining the charm of each product while ensuring they complement and enhance each other seamlessly—is a challenge I always encounter.</p></div>
+      <img class="img-medium-size" src="images/project3-detail-01.png" alt="WWDC detail 1" />
       <div class="detail-section"><h3>Solution</h3></div>
-      <p class="detail-desc">Design a key visual that communicates the app's unique value, and craft a cohesive visual system that strikes the right balance between the captivating appeal of a game character and the less visually appealing nature of an app's user interface. Utilizing screenshots, promotional materials, and conducted research, I identify the essential elements or user interface that best represents the core value of the app. Crafting these assets using vibrant colors, toning down the visual complexity, and building a cohesive visual following the brand guideline—focusing on maintaining visual consistency across all platforms, ensuring uniformity in lighting, color grading, and scale throughout the design.</p>
-      <div class="detail-images"><img src="images/project3-detail-02.png" alt="WWDC detail 2" /></div>
+      <div class="detail-desc"><p>Design a key visual that communicates the app's unique value, and craft a cohesive visual system that strikes the right balance between the captivating appeal of a game character and the less visually appealing nature of an app's user interface. Utilizing screenshots, promotional materials, and conducted research, I identify the essential elements or user interface that best represents the core value of the app. Crafting these assets using vibrant colors, toning down the visual complexity, and building a cohesive visual following the brand guideline—focusing on maintaining visual consistency across all platforms, ensuring uniformity in lighting, color grading, and scale throughout the design.</p></div>
+      <img class="img-medium-size" src="images/project3-detail-02.png" alt="WWDC detail 2" />
       <div class="detail-section"><h3>On iPad, Apple TV, Vision Pro</h3></div>
-      <div class="detail-images"><img src="images/project3-detail-03.png" alt="On iPad, Apple TV, Vision Pro" /></div>
+      <img class="img-full" src="images/project3-detail-03.png" alt="On iPad, Apple TV, Vision Pro" />
     </div>
   </section>
 
   <!-- ============ 6 — Value's Moment Takeover ============ -->
-  <section class="project-detail text-left" data-index="6" style="--accent:#ea580c;">
+  <section class="project-detail" data-index="6" style="--accent:#ea580c;">
     <div class="detail-topbar"><button class="circle-btn icon-close" onclick="closeProject()" aria-label="Close"></button></div>
     <div class="detail-header"><img src="images/project4-header.png" alt="Value's Moment Takeover header" /></div>
     <div class="detail-inner">
       <h2 class="detail-title">Value's Moment Takeover</h2>
       <p class="detail-subtitle">Composition &nbsp;|&nbsp; Production</p>
-      <div class="detail-images">
-        <img src="images/project4-detail-01.png" alt="Value's Moment detail 1" />
-        <div class="detail-section"><h3>Black History Month</h3></div>
-        <img src="images/project4-detail-02.png" alt="Black History Month" />
-        <div class="detail-section"><h3>Celebrating Latin Heritage Month</h3></div>
-        <img src="images/project4-detail-03.png" alt="Celebrating Latin Heritage Month" />
-        <img src="images/project4-detail-04.png" alt="Value's Moment detail 4" />
-      </div>
+      <img class="img-medium-size" src="images/project4-detail-01.png" alt="detail 1" />
+      <div class="detail-section"><h3>Black History Month</h3></div>
+      <img class="img-medium-size" src="images/project4-detail-02.png" alt="Black History Month" />
+      <div class="detail-section"><h3>Celebrating Latin Heritage Month</h3></div>
+      <img class="img-medium-size" src="images/project4-detail-03.png" alt="Celebrating Latin Heritage Month" />
     </div>
   </section>
 
   <!-- ============ 7 — Disney Alexa Skills ============ -->
-  <section class="project-detail text-left" data-index="7" style="--accent:#0891b2;">
+  <section class="project-detail" data-index="7" style="--accent:#0891b2;">
     <div class="detail-topbar"><button class="circle-btn icon-close" onclick="closeProject()" aria-label="Close"></button></div>
     <div class="detail-header" style="width:70%; margin:0 auto;"><img src="images/project7-header.png" alt="Disney Alexa Skills header" style="border-radius:16px;" /></div>
     <div class="detail-inner">
       <h2 class="detail-title">Disney Alexa Skills</h2>
       <p class="detail-subtitle">Logo Design &nbsp;|&nbsp; Brand identity</p>
-      <div class="detail-section"><h3>Process</h3></div>
       <div class="detail-section"><h3>Disney Quote of the Day</h3></div>
-      <div class="detail-images">
-        <img src="images/project7-detail-01.png" alt="Disney Quote of the Day 1" />
-        <img src="images/project7-detail-02.png" alt="Disney Quote of the Day 2" />
-      </div>
+      <img class="img-medium-size" src="images/project7-detail-01.png" alt="Quote 1" />
+      <img class="img-medium-size" src="images/project7-detail-02.png" alt="Quote 2" />
       <div class="detail-section"><h3>Disney Character of the Day</h3></div>
-      <div class="detail-images"><img src="images/project7-detail-03.png" alt="Disney Character of the Day" /></div>
+      <img class="img-medium-size" src="images/project7-detail-03.png" alt="Character" />
       <div class="detail-section"><h3>This Day in Disney History</h3></div>
-      <div class="detail-images">
-        <img src="images/project7-detail-04.png" alt="This Day in Disney History 1" />
-        <img src="images/project7-detail-05.png" alt="This Day in Disney History 2" />
-      </div>
+      <img class="img-medium-size" src="images/project7-detail-04.png" alt="History 1" />
+      <img class="img-medium-size" src="images/project7-detail-05.png" alt="History 2" />
     </div>
   </section>
 
   <!-- ============ 8 — Disney Sweepstakes ============ -->
-  <section class="project-detail text-left" data-index="8" style="--accent:#db2777;">
+  <section class="project-detail" data-index="8" style="--accent:#db2777;">
     <div class="detail-topbar"><button class="circle-btn icon-close" onclick="closeProject()" aria-label="Close"></button></div>
-    <h2 class="detail-title" style="margin-top:48px;">Disney Sweepstakes</h2>
-    <p class="detail-subtitle">Creative concept &nbsp;|&nbsp; Production</p>
-    <div class="detail-header" style="width:70%; margin:0 auto;"><img src="images/project8-header.png" alt="Disney Sweepstakes header" style="border-radius:16px;" /></div>
     <div class="detail-inner">
-      <div class="detail-images"><img src="images/project6.jpg" alt="Disney Sweepstakes" onerror="this.style.display='none'" /></div>
+      <h2 class="detail-title">Disney Sweepstakes</h2>
+      <p class="detail-subtitle">Creative concept &nbsp;|&nbsp; Production</p>
+      <div class="detail-header" style="width:70%; margin:20px auto;"><img src="images/project8-header.png" alt="Disney Sweepstakes header" style="border-radius:16px;" /></div>
+      <img class="img-medium-size" src="images/project6.jpg" alt="Disney Sweepstakes" onerror="this.style.display='none'" />
     </div>
   </section>
 
   <button id="toTop" class="circle-btn icon-up" onclick="scrollProjectTop()" aria-label="Back to top"></button>
 
   <script>
-    /* ===== CHAT GATE ===== */
     const chatAnswers = {
       specialize: "A bit of everything visual! 🎨 Visual design, editorial content, design system, photography, video editing, illustration, and — as you can probably tell from this site — AI-assisted product development.",
       tools:      "Sketch, Figma, Photoshop, Illustrator, After Effects, Premiere Pro, DaVinci Resolve… But honestly, some of my best ideas still start with a pencil and paper ✏️",
       fun:        "In my free time, I make travel videos on YouTube 🎥✈️ — so when I'm not designing, I'm probably filming somewhere scenic (and editing 🎞️)."
     };
-    const chatLabels = {
-      specialize: "What do you specialize in?", tools: "What tools do you use?", fun: "Tell me something fun about you"
-    };
+    const chatLabels = { specialize: "What do you specialize in?", tools: "What tools do you use?", fun: "Tell me something fun about you" };
     function addBubble(cls, text) {
       const log = document.getElementById('chatLog');
       const b = document.createElement('div'); b.className = 'chat-bubble ' + cls; b.textContent = text;
@@ -454,32 +537,19 @@
       log.appendChild(t); log.scrollTop = log.scrollHeight;
       setTimeout(() => { t.remove(); addBubble('bot', text); if (cb) cb(); }, 700);
     }
-    function chatAnswer(key) {
-      addBubble('user', chatLabels[key] || key);
-      botReply(chatAnswers[key] || "Hmm, that one stumped me! 😊 Try a question below, or email michellexuliu@gmail.com");
-    }
+    function chatAnswer(key) { addBubble('user', chatLabels[key] || key); botReply(chatAnswers[key] || "Hmm, that one stumped me! 😊"); }
     function askPassword() {
       addBubble('user', "I have the password 🔑");
       botReply("Ooh, a VIP! 🎉 Type the magic word below 👇", () => {
-        const log = document.getElementById('chatLog');
-        const pw = document.getElementById('chatPw');
-        log.appendChild(pw); pw.classList.add('show');
-        log.scrollTop = log.scrollHeight;
+        const log = document.getElementById('chatLog'); const pw = document.getElementById('chatPw');
+        log.appendChild(pw); pw.classList.add('show'); log.scrollTop = log.scrollHeight;
         document.getElementById('chatPwInput').focus();
       });
     }
     function checkChatPw() {
-      const wrap = document.getElementById('chatPw');
-      const val = document.getElementById('chatPwInput').value;
-      if (val === 'the0dyssey') {
-        sessionStorage.setItem('unlocked', 'yes');
-        wrap.classList.remove('show');
-        showPage('work');
-      } else {
-        wrap.classList.remove('error'); void wrap.offsetWidth; wrap.classList.add('error');
-        document.getElementById('chatPwInput').value = '';
-        botReply("Hmm, that's not quite it! 😊 Give it another try.");
-      }
+      const wrap = document.getElementById('chatPw'); const val = document.getElementById('chatPwInput').value;
+      if (val === 'the0dyssey') { sessionStorage.setItem('unlocked', 'yes'); wrap.classList.remove('show'); showPage('work'); }
+      else { wrap.classList.remove('error'); void wrap.offsetWidth; wrap.classList.add('error'); document.getElementById('chatPwInput').value = ''; botReply("Hmm, that's not quite it! 😊 Give it another try."); }
     }
 
     const pages = document.querySelectorAll('.page');
@@ -487,7 +557,6 @@
     const navbar = document.getElementById('navbar');
     const navStamp = document.getElementById('navStamp');
     const homeBg = document.getElementById('home-bg');
-
     function showPage(name) {
       if (name !== 'welcome' && sessionStorage.getItem('unlocked') !== 'yes') { return; }
       closeProject();
@@ -495,40 +564,30 @@
       document.getElementById('page-' + name).classList.add('active');
       navLinks.forEach(a => a.classList.toggle('active', a.dataset.nav === name));
       const isWelcome = (name === 'welcome');
-      navbar.style.display   = isWelcome ? 'none' : 'flex';
+      navbar.style.display = isWelcome ? 'none' : 'flex';
       navStamp.style.display = isWelcome ? 'none' : 'block';
-      homeBg.style.display   = 'block';
+      homeBg.style.display = 'block';
       window.scrollTo(0, 0);
     }
-
     window.addEventListener('scroll', () => { navbar.classList.toggle('scrolled', window.scrollY > 10); });
 
     const panels = document.querySelectorAll('.project-detail');
     const toTop = document.getElementById('toTop');
     let current = 0;
-    function openProject(i) {
-      closeProject(); current = i;
-      panels[i].classList.add('open'); panels[i].scrollTop = 0;
-      panels[i].onscroll = () => { toTop.classList.toggle('show', panels[i].scrollTop > 200); };
-    }
+    function openProject(i) { closeProject(); current = i; panels[i].classList.add('open'); panels[i].scrollTop = 0; panels[i].onscroll = () => { toTop.classList.toggle('show', panels[i].scrollTop > 200); }; }
     function closeProject() { panels.forEach(p => { p.classList.remove('open'); p.onscroll = null; }); toTop.classList.remove('show'); }
     function nextProject() { openProject((current + 1) % panels.length); }
     function prevProject() { openProject((current - 1 + panels.length) % panels.length); }
     function scrollProjectTop() { panels[current].scrollTo({ top: 0, behavior: 'smooth' }); }
-
     document.addEventListener('keydown', (e) => {
       const open = [...panels].some(p => p.classList.contains('open'));
       if (!open) return;
-      if (e.key === 'Escape') closeProject();
-      else if (e.key === 'ArrowRight') nextProject();
-      else if (e.key === 'ArrowLeft')  prevProject();
+      if (e.key === 'Escape') closeProject(); else if (e.key === 'ArrowRight') nextProject(); else if (e.key === 'ArrowLeft') prevProject();
     });
 
-    if (sessionStorage.getItem('unlocked') === 'yes') { showPage('work'); }
-    else { showPage('welcome'); }
+    if (sessionStorage.getItem('unlocked') === 'yes') { showPage('work'); } else { showPage('welcome'); }
   </script>
 
-  <!-- password bar (relocated into chat by JS when needed) -->
   <div class="chat-pw" id="chatPw">
     <input type="password" id="chatPwInput" placeholder="Enter the magic word…" onkeydown="if(event.key==='Enter') checkChatPw();" />
     <button onclick="checkChatPw()">Enter</button>
