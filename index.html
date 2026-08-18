@@ -269,6 +269,13 @@
     .liquid-btn:hover::before {
       transform: translateX(-105%);          /* wave slides out to the left */
     }
+    /* Center the Contact page content */
+    #page-about { text-align: center; }
+    #page-about .contact-form { align-items: center; }
+    #page-about .contact-form > div { width: 100%; max-width: 520px; text-align: left; }
+    #page-about .contact-form button { align-self: center; }
+    #page-about .resume-btn { margin-left: auto; margin-right: auto; }
+    #page-about .social-links { display: flex; justify-content: center; }
 
 </style>
 </head>
@@ -308,15 +315,15 @@
   <!-- ============ WORK ============ -->
   <section id="page-work" class="page">
     <ul class="work-list">
-      <li onclick="openProject(0)"><span class="w-title">This Website.</span><span class="w-skills">AI-Assisted Development, UI Design, Prototyping</span></li>
+      <li onclick="openProject(0)"><span class="w-title">How I Built This Portfolio Site.</span><span class="w-skills">AI-Assisted Development, UI Design, Prototyping</span></li>
       <li onclick="openProject(1)"><span class="w-title">Internal QA Testing Tool.</span><span class="w-skills">AI-Assisted Development, Prototyping</span></li>
       <li onclick="openProject(2)"><span class="w-title">Game Franchise Collection.</span><span class="w-skills">Visual System, Design Component, Production</span></li>
       <li onclick="openProject(3)"><span class="w-title">Holiday Collection.</span><span class="w-skills">Art Direction, Communication</span></li>
       <li onclick="openProject(4)"><span class="w-title">Games Collection.</span><span class="w-skills">Visual System, Design Component</span></li>
       <li onclick="openProject(5)"><span class="w-title">WWDC Campaign.</span><span class="w-skills">Problem solving, Communication, Production</span></li>
       <li onclick="openProject(6)"><span class="w-title">Value's Moment Takeover.</span><span class="w-skills">Composition, Production</span></li>
-      <li onclick="openProject(7)"><span class="w-title">Disney Alexa Skills.</span><span class="w-skills">Logo Design, Brand identity</span></li>
-      <li onclick="openProject(8)"><span class="w-title">Disney Sweepstakes.</span><span class="w-skills">Creative concept, Production</span></li>
+      <li onclick="openProject(7)"><span class="w-title">Disney Alexa Skills.</span><span class="w-skills">Logo Design, Brand Identity</span></li>
+      <li onclick="openProject(8)"><span class="w-title">Disney Sweepstakes.</span><span class="w-skills">Creative Concept, Production</span></li>
     </ul>
   </section>
 
@@ -370,10 +377,20 @@
     <div class="detail-inner">
       <h2 class="detail-title">Building with AI</h2>
       <p class="detail-subtitle">Designed &amp; Coded with Claude</p>
-      <div class="detail-desc">
-        <p style="margin-bottom:16px;">I designed every page in Figma, creating the full visual mockups, then built the site in VS Code. I worked with Claude to translate my designs into code, then refined, debugged, and iterated on it directly in VS Code. I also created an image-sizing system to streamline future image updates.</p>
-        <p>The motion background and the micro-animations on the icons are custom and embedded directly in the code. Throughout the process, I developed a working knowledge of front-end development, learning to read and interpret code, debug and troubleshoot errors, manage responsive layouts across devices, and understand how HTML, CSS, and JavaScript work together to bring a design to life.</p>
+            <div class="detail-desc">
+        <p style="margin-bottom:8px;"><strong>Design → Build</strong></p>
+        <p style="margin-bottom:28px;">Every page began in Figma as a full visual mockup, then came to life in VS Code, with Claude translating design into code and each iteration refined and debugged directly in the editor.</p>
+
+        <p style="margin-bottom:8px;"><strong>Design System</strong></p>
+        <p style="margin-bottom:28px;">Rather than styling page by page, the build grew into a reusable design system, standardized image sizes, button styles, and layout patterns, so future updates stay effortless and consistent.</p>
+
+        <p style="margin-bottom:8px;"><strong>Customization</strong></p>
+        <p style="margin-bottom:28px;">The motion background, frosted-glass cards, playful icon animations, and liquid-wave buttons are all custom-built and embedded in the code, then made fully responsive across desktop, laptop, and mobile.</p>
+
+        <p style="margin-bottom:8px;"><strong>The Takeaway</strong></p>
+        <p>What began as a design handoff turned into real front-end work, reading and debugging code, managing responsive layouts, and understanding how HTML, CSS, and JavaScript come together. More than anything, it helped me understand the technical constraints and functional logic behind building a product.</p>
       </div>
+
 
       <div class="img-pair">
         <img src="images/project01-detail-01.png" alt="This Website detail 1" />
@@ -589,10 +606,11 @@
     <div class="detail-inner">
       <h2 class="detail-title">Disney Sweepstakes</h2>
       <p class="detail-subtitle">Creative concept &nbsp;|&nbsp; Production</p>
-      <div class="detail-header" style="width:70%; margin:20px auto;"><img src="images/project8-header.png" alt="Disney Sweepstakes header" style="border-radius:16px;" /></div>
-      <img class="img-medium-size" src="images/project6.jpg" alt="Disney Sweepstakes" onerror="this.style.display='none'" />
-    </div>
-  </section>
+            <div class="detail-header" style="width:70%; margin:20px auto;"><img src="images/project8-header.png" alt="Disney Sweepstakes header" style="border-radius:16px;" /></div>
+      <img class="img-full" src="images/project7-divider.png" alt="divider" />
+      <img class="img-medium-size" src="images/project8-detail-01.png" alt="Disney Sweepstakes detail 1" />
+
+
 
   <button id="toTop" class="circle-btn icon-up" onclick="scrollProjectTop()" aria-label="Back to top"></button>
 
