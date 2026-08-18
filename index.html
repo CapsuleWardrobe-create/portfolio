@@ -10,7 +10,23 @@
       .img-pair { flex-direction: column; gap: 16px; }
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }    /* 4-column image grid — natural proportions, no cropping */
+    * { margin: 0; padding: 0; box-sizing: border-box; }    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* Amazon / external link pill button */
+       .pill-btn {
+      display: block; width: fit-content; margin: 8px auto 32px;
+      padding: 14px 32px; border-radius: 999px;
+      background: #000000; color: #ffffff; text-decoration: none;
+      font-size: 1rem; transition: opacity 0.2s, transform 0.2s;
+    }
+    .pill-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+    .pill-btn::after { content: " →"; display: inline-block; transition: transform 0.25s ease; }
+    .pill-btn:hover::after { transform: translateX(6px); }
+
+    /* 60px spacing above each "making of" section */
+    .making-of { margin-top: 60px; }
+
+    /* 4-column image grid — natural proportions, no cropping */
     .img-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; width: 100%; margin: 20px 0; align-items: start; }
     .img-grid-4 img { width: 100%; height: auto; border-radius: 8px; display: block; }
     @media (max-width: 900px) { .img-grid-4 { grid-template-columns: repeat(3, 1fr); } }
@@ -224,7 +240,37 @@
       .detail-desc, .detail-section, .detail-text { padding: 0 20px; } .detail-desc, .detail-text p { font-size: 0.95rem; }
       .detail-topbar { top: 16px; right: 16px; } .circle-btn { width: 36px; height: 36px; } .icon-close::before, .icon-close::after { width: 13px; }
     }
-  </style>
+      /* small icon-sized image, centered */
+    .img-icon { display: block; width: 200px; height: auto; margin: 20px auto; border-radius: 8px; }
+    @media (max-width: 640px) { .img-icon { width: 140px; } }
+    /* Liquid-fill pill button: black fill retreats on hover, leaving outline */
+        /* Liquid-fill pill button: fill drains bottom-left → top-right on hover */
+        /* Liquid-wave pill button: organic wave fill drains left → right on hover */
+    .liquid-btn {
+      position: relative; display: block; width: fit-content;
+      margin: 8px auto 32px; padding: 14px 34px;
+      border: 2px solid #000000; border-radius: 999px;
+      color: #ffffff; text-decoration: none; font-size: 1rem;
+      overflow: hidden; z-index: 0; transition: color 0.5s ease;
+    }
+    .liquid-btn::before {
+      content: ""; position: absolute; top: 0; bottom: 0;
+      left: 0; width: 140%;                 /* extra width for the wavy edge */
+      background: #000000; z-index: -1;
+      /* wavy right edge via SVG mask, creates the organic liquid look */
+      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L80,0 C88,25 72,50 85,70 C92,85 80,95 78,100 L0,100 Z' fill='black'/%3E%3C/svg%3E");
+      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L80,0 C88,25 72,50 85,70 C92,85 80,95 78,100 L0,100 Z' fill='black'/%3E%3C/svg%3E");
+      -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+      -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+      transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+      transform: translateX(0);              /* fully covering at rest */
+    }
+    .liquid-btn:hover { color: #000000; }
+    .liquid-btn:hover::before {
+      transform: translateX(-105%);          /* wave slides out to the left */
+    }
+
+</style>
 </head>
 <body>
 
@@ -498,21 +544,35 @@
     </div>
   </section>
 
-  <!-- ============ 7 — Disney Alexa Skills ============ -->
+     <!-- ============ 7 — Disney Alexa Skills ============ -->
   <section class="project-detail" data-index="7" style="--accent:#0891b2;">
     <div class="detail-topbar"><button class="circle-btn icon-close" onclick="closeProject()" aria-label="Close"></button></div>
-    <div class="detail-header" style="width:70%; margin:0 auto;"><img src="images/project7-header.png" alt="Disney Alexa Skills header" style="border-radius:16px;" /></div>
     <div class="detail-inner">
       <h2 class="detail-title">Disney Alexa Skills</h2>
-      <p class="detail-subtitle">Logo Design &nbsp;|&nbsp; Brand identity</p>
-      <div class="detail-section"><h3>Disney Quote of the Day</h3></div>
-      <img class="img-medium-size" src="images/project7-detail-01.png" alt="Quote 1" />
-      <img class="img-medium-size" src="images/project7-detail-02.png" alt="Quote 2" />
-      <div class="detail-section"><h3>Disney Character of the Day</h3></div>
-      <img class="img-medium-size" src="images/project7-detail-03.png" alt="Character" />
-      <div class="detail-section"><h3>This Day in Disney History</h3></div>
-      <img class="img-medium-size" src="images/project7-detail-04.png" alt="History 1" />
-      <img class="img-medium-size" src="images/project7-detail-05.png" alt="History 2" />
+      <p class="detail-subtitle">Icon Design &nbsp;|&nbsp; Brand identity</p>
+
+      <div class="detail-desc"><p>During my time at Disney, I designed the first three icons for Disney's Alexa Skills. Each icon functions as a logo for its Skill, capturing the essence of the experience while staying true to Disney's brand identity. The design also had to work seamlessly across both chiclet and circular formats.</p></div>
+
+      <img class="img-medium-size" src="images/project7-3up.png" alt="Disney Alexa Skills — three icons" />
+
+      <!-- This Day in Disney History -->
+      <div class="detail-section making-of"><h3><span style="font-weight:400;">The making of</span> <span style="font-weight:500;">This Day in Disney History</span></h3></div>
+      <img class="img-medium-size" src="images/project7-detail-04.png" alt="This Day in Disney History icon" />
+<img class="img-icon" src="images/project7-detail-05.png" alt="This Day in Disney History detail" />
+      <a class="liquid-btn" href="https://www.amazon.com/This-Day-in-Disney-History/dp/B072WLBF9Y/" target="_blank" rel="noopener">See it on Amazon</a>
+
+      <!-- Disney Character of the Day -->
+      <div class="detail-section making-of"><h3><span style="font-weight:400;">The making of</span> <span style="font-weight:500;">Disney Character of the Day</span></h3></div>
+      <img class="img-medium-size" src="images/project7-detail-03.png" alt="Disney Character of the Day icon" />
+      <img class="img-icon" src="images/project7-detail-06.png" alt="Disney Character of the Day detail" />
+      <a class="liquid-btn" href="https://www.amazon.com/Disney-Character-of-the-Day/dp/B072WKN4N5/" target="_blank" rel="noopener">See it on Amazon</a>
+
+      <!-- Disney Quote of the Day -->
+      <div class="detail-section making-of"><h3><span style="font-weight:400;">The making of</span> <span style="font-weight:500;">Disney Quote of the Day</span></h3></div>
+      <img class="img-medium-size" src="images/project7-detail-01.png" alt="Disney Quote of the Day — 1" />
+      <img class="img-medium-size" src="images/project7-detail-02.png" alt="Disney Quote of the Day — 2" />
+      <img class="img-icon" src="images/project7-detail-07.png" alt="Disney Quote of the Day detail" />
+      <a class="liquid-btn" href="https://www.amazon.com/Disney-Quote-of-the-Day/dp/B072WMM3LT/" target="_blank" rel="noopener">See it on Amazon</a>
     </div>
   </section>
 
